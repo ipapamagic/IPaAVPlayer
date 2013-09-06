@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6EAA489917DA460600648A95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EAA489817DA460600648A95 /* Foundation.framework */; };
 		6EAA48A817DA468500648A95 /* IPaMusicPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA48A717DA468500648A95 /* IPaMusicPlayer.m */; };
+		6EAA48AA17DA49A200648A95 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EAA48A917DA49A200648A95 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,6 +30,7 @@
 		6EAA489C17DA460600648A95 /* IPaMusicPlayer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaMusicPlayer-Prefix.pch"; sourceTree = "<group>"; };
 		6EAA48A617DA468500648A95 /* IPaMusicPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPaMusicPlayer.h; sourceTree = "<group>"; };
 		6EAA48A717DA468500648A95 /* IPaMusicPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPaMusicPlayer.m; sourceTree = "<group>"; };
+		6EAA48A917DA49A200648A95 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EAA48AA17DA49A200648A95 /* AVFoundation.framework in Frameworks */,
 				6EAA489917DA460600648A95 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,6 +66,7 @@
 		6EAA489717DA460600648A95 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6EAA48A917DA49A200648A95 /* AVFoundation.framework */,
 				6EAA489817DA460600648A95 /* Foundation.framework */,
 			);
 			name = Frameworks;

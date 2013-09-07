@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E8B223A17DB97A700983D21 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8B223917DB97A700983D21 /* CoreMedia.framework */; };
 		6EAA489917DA460600648A95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EAA489817DA460600648A95 /* Foundation.framework */; };
 		6EAA48A817DA468500648A95 /* IPaMusicPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAA48A717DA468500648A95 /* IPaMusicPlayer.m */; };
 		6EAA48AA17DA49A200648A95 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EAA48A917DA49A200648A95 /* AVFoundation.framework */; };
@@ -25,6 +26,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6E8B223917DB97A700983D21 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		6EAA489517DA460600648A95 /* libIPaMusicPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libIPaMusicPlayer.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EAA489817DA460600648A95 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6EAA489C17DA460600648A95 /* IPaMusicPlayer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IPaMusicPlayer-Prefix.pch"; sourceTree = "<group>"; };
@@ -38,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E8B223A17DB97A700983D21 /* CoreMedia.framework in Frameworks */,
 				6EAA48AA17DA49A200648A95 /* AVFoundation.framework in Frameworks */,
 				6EAA489917DA460600648A95 /* Foundation.framework in Frameworks */,
 			);
@@ -66,6 +69,7 @@
 		6EAA489717DA460600648A95 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6E8B223917DB97A700983D21 /* CoreMedia.framework */,
 				6EAA48A917DA49A200648A95 /* AVFoundation.framework */,
 				6EAA489817DA460600648A95 /* Foundation.framework */,
 			);

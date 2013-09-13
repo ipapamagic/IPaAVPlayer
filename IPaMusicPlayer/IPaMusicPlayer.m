@@ -10,7 +10,7 @@
 
 
 
-@interface IPaMusicPlayer() <AVAudioSessionDelegate>
+@interface IPaMusicPlayer() <AVAudioSessionDelegate,AVAudioPlayerDelegate>
 @property (nonatomic,readonly) AVPlayer *musicPlayer;
 @end
 @implementation IPaMusicPlayer

@@ -12,10 +12,12 @@
 
 @interface IPaMusicPlayer() <AVAudioSessionDelegate,AVAudioPlayerDelegate>
 @property (nonatomic,readonly) AVPlayer *musicPlayer;
+@property (nonatomic,assign) BOOL shouldResume;
+@property (nonatomic,assign) BOOL isPlay;
 @end
 @implementation IPaMusicPlayer
 {
-
+    
 }
 +(IPaMusicPlayer*)defaultPlayer
 {
@@ -28,7 +30,7 @@
 -(id)init
 {
     self = [super init];
-    
+    self.shouldResume = NO;
     //initial AudioSession
     // Registers this class as the delegate of the audio session to listen for audio interruptions
     [[AVAudioSession sharedInstance] setDelegate: self];
@@ -90,17 +92,20 @@
 
 -(void)pause
 {
+    self.isPlay = NO;
     [_musicPlayer pause];
 }
 -(void)play
 {
+    self.isPlay = YES;
     [_musicPlayer play];
 }
 
 
 - (void)playerItemDidReachEnd:(NSNotification *)notification {
     //allow for state updates, UI changes
-    NSLog(@"song over!");
+    //    NSLog(@"song over!");
+    self.isPlay = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:IPAMUSICPLAYER_ITEM_FINISHED object:self userInfo:nil];
 }
 
@@ -129,7 +134,7 @@
 +(double)currentMusicDuration
 {
     AVPlayerItem *currentItem = [IPaMusicPlayer currentItem];
-    return (currentItem == nil)?0:CMTimeGetSeconds(currentItem.duration);
+    return (currentItem == nil)?0:CMTimeGetSeconds(currentItem.asset.duration);
     
 }
 +(double)currentMusicProgress
@@ -144,9 +149,7 @@
 
 +(BOOL)isPlaying
 {
-    AVPlayer *player = [IPaMusicPlayer defaultPlayer].musicPlayer;
-    
-    return (player.currentItem == nil)? NO:(player.rate == 1);
+    return [IPaMusicPlayer defaultPlayer].isPlay;
 }
 +(void)seekToTime:(NSUInteger)time
 {
@@ -158,13 +161,22 @@
 /* the interruption is over */
 - (void)endInterruptionWithFlags:(NSUInteger)flags
 {
-    [self play];
+    if (self.shouldResume) {
+        
+        [self play];
+        self.shouldResume = NO;
+    }
+    
 }
 
 
-- (void)beginInterruption; /* something has caused your audio session to be interrupted */
+- (void)beginInterruption /* something has caused your audio session to be interrupted */
 {
-    [self pause];
+    if(self.isPlay) {
+        [self pause];
+        self.shouldResume = YES;
+        
+    }
 }
 
 @end

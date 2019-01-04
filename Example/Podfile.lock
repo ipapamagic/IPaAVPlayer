@@ -1,0 +1,16 @@
+PODS:
+  - IPaMusicPlayer (0.1.0)
+
+DEPENDENCIES:
+  - IPaMusicPlayer (from `../`)
+
+EXTERNAL SOURCES:
+  IPaMusicPlayer:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  IPaMusicPlayer: ebf8732ee8b2ed5fd1ef50caed934ae96aa3dc4b
+
+PODFILE CHECKSUM: a8ab03c3062d029bcded4deb29073052f2ea6e61
+
+COCOAPODS: 1.6.0.beta.2

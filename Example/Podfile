@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'IPaMusicPlayer_Example' do
+  pod 'IPaMusicPlayer', :path => '../'
+
+  target 'IPaMusicPlayer_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

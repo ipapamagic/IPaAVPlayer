@@ -15,10 +15,13 @@ public class IPaMusicPlayer: NSObject {
     public static let IPaMusicPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaMusicPlayerItemFinished")
     var currentItem:AVPlayerItem? {
         get {
-            if let musicPlayer = musicPlayer {
-                return musicPlayer.currentItem
-            }
-            return nil
+            return self.musicPlayer?.currentItem
+            
+        }
+    }
+    public var playingUrl:URL? {
+        get {
+            return (self.currentItem?.asset as? AVURLAsset)?.url
         }
     }
     public var musicDuration:Double {
@@ -57,7 +60,7 @@ public class IPaMusicPlayer: NSObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    public func setMusicPlayItem(_ playerItem:AVPlayerItem) {
+    func setMusicPlayItem(_ playerItem:AVPlayerItem) {
         if let musicPlayer = musicPlayer {
             if musicPlayer.currentItem == playerItem {
                 musicPlayer.seek(to: CMTime(value: 0, timescale: 1))
@@ -114,6 +117,8 @@ public class IPaMusicPlayer: NSObject {
                 
                 self.shouldResume = false
             }
+        @unknown default:
+            break
         }
         
     }

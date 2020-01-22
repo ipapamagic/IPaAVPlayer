@@ -31,7 +31,7 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '10.0'
 
   s.source_files = 'IPaMusicPlayer/Classes/**/*'
-  s.swift_version = '4.2'
+  s.swift_version = '5.1'
   # s.resource_bundles = {
   #   'IPaMusicPlayer' => ['IPaMusicPlayer/Assets/*.png']
   # }

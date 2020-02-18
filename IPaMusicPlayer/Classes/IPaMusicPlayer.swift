@@ -12,7 +12,14 @@ public class IPaMusicPlayer: NSObject {
     public static let shared = IPaMusicPlayer()
     var shouldResume:Bool = false
     var _isPlay:Bool = false
+    public var timeControlStatus:AVPlayer.TimeControlStatus? {
+        get {
+            return self.musicPlayer?.timeControlStatus
+        }
+    }
     public static let IPaMusicPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaMusicPlayerItemFinished")
+    public static let IPaMusicPlayerTimeStatusChanged:NSNotification.Name = NSNotification.Name("IPaMusicPlayerTimeStatusChanged")
+    
     var currentItem:AVPlayerItem? {
         get {
             return self.musicPlayer?.currentItem
@@ -38,7 +45,22 @@ public class IPaMusicPlayer: NSObject {
             return _isPlay
         }
     }
+    fileprivate var _musicPlayer:AVPlayer?
     var musicPlayer:AVPlayer?
+    {
+        get {
+            return _musicPlayer
+        }
+        set {
+            if let _musicPlayer = _musicPlayer {
+                _musicPlayer.removeObserver(self, forKeyPath: "timeControlStatu")
+            }
+            if let newValue = newValue {
+                newValue.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+            }
+            _musicPlayer = newValue
+        }
+    }
     public var currentAVMetadataItem:[AVMetadataItem] {
         get {
             return self.currentItem?.asset.commonMetadata ?? [AVMetadataItem]()
@@ -122,5 +144,13 @@ public class IPaMusicPlayer: NSObject {
         }
         
     }
-    
+    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "timeControlStatus", let change = change, let newValue = change[NSKeyValueChangeKey.newKey] as? Int, let oldValue = change[NSKeyValueChangeKey.oldKey] as? Int {
+            let oldStatus = AVPlayer.TimeControlStatus(rawValue: oldValue)
+            let newStatus = AVPlayer.TimeControlStatus(rawValue: newValue)
+            if newStatus != oldStatus {
+                NotificationCenter.default.post(name: IPaMusicPlayer.IPaMusicPlayerTimeStatusChanged, object: nil)
+            }
+        }
+    }
 }

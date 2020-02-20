@@ -1,6 +1,6 @@
 //
-//  IPaMusicPlayer.swift
-//  IPaMusicPlayer
+//  IPaAVPlayer.swift
+//  IPaAVPlayer
 //
 //  Created by IPa Chen on 2019/1/3.
 //
@@ -8,8 +8,8 @@
 import UIKit
 import AVFoundation
 
-public class IPaMusicPlayer: NSObject {
-    public static let shared = IPaMusicPlayer()
+public class IPaAVPlayer: NSObject {
+    public static let shared = IPaAVPlayer()
     var shouldResume:Bool = false
     var _isPlay:Bool = false
     public var timeControlStatus:AVPlayer.TimeControlStatus? {
@@ -17,8 +17,8 @@ public class IPaMusicPlayer: NSObject {
             return self.musicPlayer?.timeControlStatus
         }
     }
-    public static let IPaMusicPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaMusicPlayerItemFinished")
-    public static let IPaMusicPlayerTimeStatusChanged:NSNotification.Name = NSNotification.Name("IPaMusicPlayerTimeStatusChanged")
+    public static let IPaAVPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFinished")
+    public static let IPaAVPlayerTimeStatusChanged:NSNotification.Name = NSNotification.Name("IPaAVPlayerTimeStatusChanged")
     
     var currentItem:AVPlayerItem? {
         get {
@@ -118,7 +118,7 @@ public class IPaMusicPlayer: NSObject {
     }
     @objc func onPlayerItemDidReachEnd(_ notification:Notification) {
         self._isPlay = false
-        NotificationCenter.default.post(name: IPaMusicPlayer.IPaMusicPlayerItemFinished, object: self)
+        NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemFinished, object: self)
     }
     @objc func onAudioSessionInterruption(_ notification:Notification) {
         guard let interruptionType = notification.userInfo?[AVAudioSessionInterruptionTypeKey] as? AVAudioSession.InterruptionType else {
@@ -149,7 +149,7 @@ public class IPaMusicPlayer: NSObject {
             let oldStatus = AVPlayer.TimeControlStatus(rawValue: oldValue)
             let newStatus = AVPlayer.TimeControlStatus(rawValue: newValue)
             if newStatus != oldStatus {
-                NotificationCenter.default.post(name: IPaMusicPlayer.IPaMusicPlayerTimeStatusChanged, object: nil)
+                NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerTimeStatusChanged, object: nil)
             }
         }
     }

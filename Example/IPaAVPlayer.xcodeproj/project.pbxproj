@@ -30,14 +30,14 @@
 /* Begin PBXFileReference section */
 		150ED5DC9F0C8D1AB351AFA4 /* Pods-IPaMusicPlayer_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaMusicPlayer_Example.release.xcconfig"; path = "Target Support Files/Pods-IPaMusicPlayer_Example/Pods-IPaMusicPlayer_Example.release.xcconfig"; sourceTree = "<group>"; };
 		406A52B57F9D04BE863FA43B /* Pods-IPaMusicPlayer_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaMusicPlayer_Tests.release.xcconfig"; path = "Target Support Files/Pods-IPaMusicPlayer_Tests/Pods-IPaMusicPlayer_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		607FACD01AFB9204008FA782 /* IPaMusicPlayer_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IPaMusicPlayer_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		607FACD01AFB9204008FA782 /* IPaAVPlayer_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IPaAVPlayer_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* IPaMusicPlayer_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IPaMusicPlayer_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		607FACE51AFB9204008FA782 /* IPaAVPlayer_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IPaAVPlayer_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		666E1B8F802DBE1BABCEA8C4 /* Pods_IPaMusicPlayer_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IPaMusicPlayer_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,8 +84,8 @@
 		607FACD11AFB9204008FA782 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				607FACD01AFB9204008FA782 /* IPaMusicPlayer_Example.app */,
-				607FACE51AFB9204008FA782 /* IPaMusicPlayer_Tests.xctest */,
+				607FACD01AFB9204008FA782 /* IPaAVPlayer_Example.app */,
+				607FACE51AFB9204008FA782 /* IPaAVPlayer_Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,9 +162,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		607FACCF1AFB9204008FA782 /* IPaMusicPlayer_Example */ = {
+		607FACCF1AFB9204008FA782 /* IPaAVPlayer_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "IPaMusicPlayer_Example" */;
+			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "IPaAVPlayer_Example" */;
 			buildPhases = (
 				890A4B03DC01011FBC29EB8E /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
@@ -176,14 +176,14 @@
 			);
 			dependencies = (
 			);
-			name = IPaMusicPlayer_Example;
+			name = IPaAVPlayer_Example;
 			productName = IPaMusicPlayer;
-			productReference = 607FACD01AFB9204008FA782 /* IPaMusicPlayer_Example.app */;
+			productReference = 607FACD01AFB9204008FA782 /* IPaAVPlayer_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		607FACE41AFB9204008FA782 /* IPaMusicPlayer_Tests */ = {
+		607FACE41AFB9204008FA782 /* IPaAVPlayer_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "IPaMusicPlayer_Tests" */;
+			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "IPaAVPlayer_Tests" */;
 			buildPhases = (
 				52278D86C922A69E2C490708 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
@@ -195,9 +195,9 @@
 			dependencies = (
 				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
 			);
-			name = IPaMusicPlayer_Tests;
+			name = IPaAVPlayer_Tests;
 			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* IPaMusicPlayer_Tests.xctest */;
+			productReference = 607FACE51AFB9204008FA782 /* IPaAVPlayer_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -221,11 +221,12 @@
 					};
 				};
 			};
-			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "IPaMusicPlayer" */;
+			buildConfigurationList = 607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "IPaAVPlayer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -234,8 +235,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				607FACCF1AFB9204008FA782 /* IPaMusicPlayer_Example */,
-				607FACE41AFB9204008FA782 /* IPaMusicPlayer_Tests */,
+				607FACCF1AFB9204008FA782 /* IPaAVPlayer_Example */,
+				607FACE41AFB9204008FA782 /* IPaAVPlayer_Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -352,7 +353,7 @@
 /* Begin PBXTargetDependency section */
 		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 607FACCF1AFB9204008FA782 /* IPaMusicPlayer_Example */;
+			target = 607FACCF1AFB9204008FA782 /* IPaAVPlayer_Example */;
 			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -481,7 +482,7 @@
 			baseConfigurationReference = 86C95FFCD59A9AB242B6EBC4 /* Pods-IPaMusicPlayer_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = IPaMusicPlayer/Info.plist;
+				INFOPLIST_FILE = IPaAVPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -496,7 +497,7 @@
 			baseConfigurationReference = 150ED5DC9F0C8D1AB351AFA4 /* Pods-IPaMusicPlayer_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = IPaMusicPlayer/Info.plist;
+				INFOPLIST_FILE = IPaAVPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -524,7 +525,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IPaMusicPlayer_Example.app/IPaMusicPlayer_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IPaAVPlayer_Example.app/IPaAVPlayer_Example";
 			};
 			name = Debug;
 		};
@@ -542,14 +543,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IPaMusicPlayer_Example.app/IPaMusicPlayer_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IPaAVPlayer_Example.app/IPaAVPlayer_Example";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "IPaMusicPlayer" */ = {
+		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "IPaAVPlayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACED1AFB9204008FA782 /* Debug */,
@@ -558,7 +559,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "IPaMusicPlayer_Example" */ = {
+		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "IPaAVPlayer_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF01AFB9204008FA782 /* Debug */,
@@ -567,7 +568,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "IPaMusicPlayer_Tests" */ = {
+		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "IPaAVPlayer_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF31AFB9204008FA782 /* Debug */,

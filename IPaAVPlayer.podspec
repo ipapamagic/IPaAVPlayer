@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint IPaMusicPlayer.podspec' to ensure this is a
+# Be sure to run `pod lib lint IPaAVPlayer.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,9 +7,9 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'IPaMusicPlayer'
+  s.name             = 'IPaAVPlayer'
   s.version          = '1.1'
-  s.summary          = 'A short description of IPaMusicPlayer.'
+  s.summary          = 'A short description of IPaAVPlayer.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -21,19 +21,19 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/ipapamagic@gmail.com/IPaMusicPlayer'
+  s.homepage         = 'https://github.com/ipapamagic@gmail.com/IPaAVPlayer'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'ipapamagic@gmail.com' => 'ipapamagic@gmail.com' }
-  s.source           = { :git => 'https://github.com/ipapamagic/IPaMusicPlayer.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/ipapamagic/IPaAVPlayer.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '10.0'
 
-  s.source_files = 'IPaMusicPlayer/Classes/**/*'
+  s.source_files = 'IPaAVPlayer/Classes/**/*'
   s.swift_version = '5.1'
   # s.resource_bundles = {
-  #   'IPaMusicPlayer' => ['IPaMusicPlayer/Assets/*.png']
+  #   'IPaAVPlayer' => ['IPaAVPlayer/Assets/*.png']
   # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'

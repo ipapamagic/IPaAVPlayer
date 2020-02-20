@@ -1,5 +1,5 @@
 import XCTest
-import IPaMusicPlayer
+import IPaAVPlayer
 
 class Tests: XCTestCase {
     

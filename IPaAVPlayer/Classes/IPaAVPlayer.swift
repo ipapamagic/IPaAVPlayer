@@ -7,22 +7,29 @@
 
 import UIKit
 import AVFoundation
-
 public class IPaAVPlayer: NSObject {
+    
     public static let shared = IPaAVPlayer()
+    var timeObserver:Any?
+    public class override func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String> {
+        if let value = ["isPlay":["_isPlay"],"timeControlStatus":["_avPlayer.timeControlStatus"]][key] {
+            return Set(value)
+        }
+        return super.keyPathsForValuesAffectingValue(forKey: key)
+    }
     var shouldResume:Bool = false
-    var _isPlay:Bool = false
-    public var timeControlStatus:AVPlayer.TimeControlStatus? {
+    @objc dynamic var _isPlay:Bool = false
+    
+    @objc dynamic public var timeControlStatus:AVPlayer.TimeControlStatus {
         get {
-            return self.musicPlayer?.timeControlStatus
+            return self.avPlayer?.timeControlStatus ?? AVPlayer.TimeControlStatus.paused
         }
     }
     public static let IPaAVPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFinished")
-    public static let IPaAVPlayerTimeStatusChanged:NSNotification.Name = NSNotification.Name("IPaAVPlayerTimeStatusChanged")
     
     var currentItem:AVPlayerItem? {
         get {
-            return self.musicPlayer?.currentItem
+            return self.avPlayer?.currentItem
             
         }
     }
@@ -31,34 +38,44 @@ public class IPaAVPlayer: NSObject {
             return (self.currentItem?.asset as? AVURLAsset)?.url
         }
     }
-    public var musicDuration:Double {
-        get {
-            if let currentItem = self.currentItem {
-                return CMTimeGetSeconds(currentItem.currentTime())
-            }
-            return 0
-        }
-    }
+    @objc dynamic public var currentTime:Double = 0
+    @objc dynamic public var duration:Double = 0
     
-    public var isPlay:Bool {
+    @objc dynamic public var isPlay:Bool {
         get {
             return _isPlay
         }
     }
-    fileprivate var _musicPlayer:AVPlayer?
-    var musicPlayer:AVPlayer?
+    dynamic fileprivate var _avPlayer:AVPlayer?
+    var avPlayer:AVPlayer?
     {
         get {
-            return _musicPlayer
+            return _avPlayer
         }
         set {
-            if let _musicPlayer = _musicPlayer {
-                _musicPlayer.removeObserver(self, forKeyPath: "timeControlStatu")
+            if let _avPlayer = _avPlayer {
+                if let timeObserver = timeObserver {
+                    _avPlayer.removeTimeObserver(timeObserver)
+                }
             }
             if let newValue = newValue {
-                newValue.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+               timeObserver =  newValue.addPeriodicTimeObserver(forInterval: CMTime(value: 300, timescale: 600), queue: .main, using: { (currentTime) in
+                    self.currentTime = currentTime.seconds
+                    
+                    
+                    if let currentItem = self.currentItem {
+                        var duration = CMTimeGetSeconds(currentItem.duration)
+                        if duration.isNaN {
+                            duration = 0
+                        }
+                        if duration != self.duration {
+                            self.duration = duration
+                        }
+                    }
+                
+                })
             }
-            _musicPlayer = newValue
+            _avPlayer = newValue
         }
     }
     public var currentAVMetadataItem:[AVMetadataItem] {
@@ -82,41 +99,52 @@ public class IPaAVPlayer: NSObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    func setMusicPlayItem(_ playerItem:AVPlayerItem) {
-        if let musicPlayer = musicPlayer {
-            if musicPlayer.currentItem == playerItem {
-                musicPlayer.seek(to: CMTime(value: 0, timescale: 1))
+  
+    func setPlayerItem(_ playerItem:AVPlayerItem) {
+        if let avPlayer = avPlayer {
+            if avPlayer.currentItem == playerItem {
+                avPlayer.seek(to: CMTime(value: 0, timescale: 1))
             }
             else {
-                musicPlayer.replaceCurrentItem(with: playerItem)
+                avPlayer.replaceCurrentItem(with: playerItem)
             }
         }
         else {
-            musicPlayer = AVPlayer(playerItem: playerItem)
+            avPlayer = AVPlayer(playerItem: playerItem)
         }
         
     }
-    public func setMusicURL(_ musicURL:URL) {
-        let asset = AVURLAsset(url: musicURL)
+    public func setAVURL(_ url:URL) {
+        let asset = AVURLAsset(url: url)
         let item = AVPlayerItem(asset: asset)
-        self.setMusicPlayItem(item)
+        self.setPlayerItem(item)
     }
     
     public func pause() {
         self._isPlay = false
-        self.musicPlayer?.pause()
+        self.avPlayer?.pause()
     }
     public func play() {
         self._isPlay = true
-        self.musicPlayer?.play()
+        self.avPlayer?.play()
     }
-    public func seekToTime(_ time:Int) {
-        guard let musicPlayer = musicPlayer else {
+    public func seekToTime(_ time:Int,complete:((Bool) -> ())? = nil) {
+        guard let avPlayer = avPlayer else {
             return
         }
-        musicPlayer.seek(to: CMTime(value: CMTimeValue(time), timescale: 1))
+        avPlayer.seek(to: CMTime(value: CMTimeValue(600 * time), timescale: 600), completionHandler: {
+            success in
+            if let complete = complete {
+                complete(success)
+            }
+        })
+        
+        
     }
     @objc func onPlayerItemDidReachEnd(_ notification:Notification) {
+        guard let item = notification.object as? AVPlayerItem, item == self.currentItem else {
+            return
+        }
         self._isPlay = false
         NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemFinished, object: self)
     }
@@ -144,13 +172,5 @@ public class IPaAVPlayer: NSObject {
         }
         
     }
-    override public func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == "timeControlStatus", let change = change, let newValue = change[NSKeyValueChangeKey.newKey] as? Int, let oldValue = change[NSKeyValueChangeKey.oldKey] as? Int {
-            let oldStatus = AVPlayer.TimeControlStatus(rawValue: oldValue)
-            let newStatus = AVPlayer.TimeControlStatus(rawValue: newValue)
-            if newStatus != oldStatus {
-                NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerTimeStatusChanged, object: nil)
-            }
-        }
-    }
+    
 }

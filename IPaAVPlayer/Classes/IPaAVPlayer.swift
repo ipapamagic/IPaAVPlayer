@@ -8,7 +8,14 @@
 import UIKit
 import AVFoundation
 public class IPaAVPlayer: NSObject {
-    
+    public var playRate:Float {
+        get {
+            return self.avPlayer?.rate ?? 1.0
+        }
+        set {
+            self.avPlayer?.rate = newValue
+        }
+    }
     public static let shared = IPaAVPlayer()
     var timeObserver:Any?
     public class override func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String> {

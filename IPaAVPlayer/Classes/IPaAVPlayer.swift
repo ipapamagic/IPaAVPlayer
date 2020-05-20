@@ -8,12 +8,12 @@
 import UIKit
 import AVFoundation
 public class IPaAVPlayer: NSObject {
-    public var playRate:Float {
-        get {
-            return self.avPlayer?.rate ?? 1.0
-        }
-        set {
-            self.avPlayer?.rate = newValue
+    public var playRate:Float = 1.0 {
+        didSet {
+            if self.isPlay {
+                self.avPlayer?.rate = playRate
+            }
+            
         }
     }
     public static let shared = IPaAVPlayer()
@@ -53,7 +53,7 @@ public class IPaAVPlayer: NSObject {
             return _isPlay
         }
     }
-    dynamic fileprivate var _avPlayer:AVPlayer?
+    @objc dynamic fileprivate var _avPlayer:AVPlayer?
     var avPlayer:AVPlayer?
     {
         get {
@@ -68,8 +68,8 @@ public class IPaAVPlayer: NSObject {
             if let newValue = newValue {
                timeObserver =  newValue.addPeriodicTimeObserver(forInterval: CMTime(value: 300, timescale: 600), queue: .main, using: { (currentTime) in
                     self.currentTime = currentTime.seconds
-                    
-                    
+                
+             
                     if let currentItem = self.currentItem {
                         var duration = CMTimeGetSeconds(currentItem.duration)
                         if duration.isNaN {
@@ -82,7 +82,10 @@ public class IPaAVPlayer: NSObject {
                 
                 })
             }
+            newValue?.automaticallyWaitsToMinimizeStalling = false
+           
             _avPlayer = newValue
+       
         }
     }
     public var currentAVMetadataItem:[AVMetadataItem] {
@@ -108,6 +111,7 @@ public class IPaAVPlayer: NSObject {
     }
   
     func setPlayerItem(_ playerItem:AVPlayerItem) {
+        playerItem.preferredForwardBufferDuration = TimeInterval(1)
         if let avPlayer = avPlayer {
             if avPlayer.currentItem == playerItem {
                 avPlayer.seek(to: CMTime(value: 0, timescale: 1))
@@ -134,7 +138,9 @@ public class IPaAVPlayer: NSObject {
     public func play() {
         self._isPlay = true
         self.avPlayer?.play()
+        self.avPlayer?.rate = self.playRate
     }
+    
     public func seekToTime(_ time:Int,complete:((Bool) -> ())? = nil) {
         guard let avPlayer = avPlayer else {
             return

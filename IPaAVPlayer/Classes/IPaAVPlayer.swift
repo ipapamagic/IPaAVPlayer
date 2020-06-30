@@ -7,7 +7,9 @@
 
 import UIKit
 import AVFoundation
+private var playerItemContext = 0
 public class IPaAVPlayer: NSObject {
+    public static let shared = IPaAVPlayer()
     public var playRate:Float = 1.0 {
         didSet {
             if self.isPlay {
@@ -16,7 +18,7 @@ public class IPaAVPlayer: NSObject {
             
         }
     }
-    public static let shared = IPaAVPlayer()
+    @objc dynamic public var playItemStatus:AVPlayerItem.Status = .unknown
     var timeObserver:Any?
     public class override func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String> {
         if let value = ["isPlay":["_isPlay"],"timeControlStatus":["_avPlayer.timeControlStatus"]][key] {
@@ -33,11 +35,33 @@ public class IPaAVPlayer: NSObject {
         }
     }
     public static let IPaAVPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFinished")
-    
     var currentItem:AVPlayerItem? {
         get {
             return self.avPlayer?.currentItem
-            
+        }
+        set {
+            self.playItemStatus = .unknown
+            guard let playerItem = newValue else {
+                if let playerItem = self.avPlayer?.currentItem {
+                    playerItem.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
+                }
+                
+                self.avPlayer?.replaceCurrentItem(with: nil)
+                return
+            }
+            playerItem.preferredForwardBufferDuration = TimeInterval(1)
+            playerItem.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new,.old], context: &playerItemContext)
+            if let avPlayer = avPlayer {
+                if avPlayer.currentItem == playerItem {
+                    avPlayer.seek(to: CMTime(value: 0, timescale: 1))
+                }
+                else {
+                    avPlayer.replaceCurrentItem(with: playerItem)
+                }
+            }
+            else {
+                avPlayer = AVPlayer(playerItem: playerItem)
+            }
         }
     }
     public var playingUrl:URL? {
@@ -110,25 +134,11 @@ public class IPaAVPlayer: NSObject {
         NotificationCenter.default.removeObserver(self)
     }
   
-    func setPlayerItem(_ playerItem:AVPlayerItem) {
-        playerItem.preferredForwardBufferDuration = TimeInterval(1)
-        if let avPlayer = avPlayer {
-            if avPlayer.currentItem == playerItem {
-                avPlayer.seek(to: CMTime(value: 0, timescale: 1))
-            }
-            else {
-                avPlayer.replaceCurrentItem(with: playerItem)
-            }
-        }
-        else {
-            avPlayer = AVPlayer(playerItem: playerItem)
-        }
-        
-    }
+    
     public func setAVURL(_ url:URL) {
         let asset = AVURLAsset(url: url)
-        let item = AVPlayerItem(asset: asset)
-        self.setPlayerItem(item)
+        self.currentItem = AVPlayerItem(asset: asset)
+        
     }
     
     public func pause() {
@@ -185,5 +195,28 @@ public class IPaAVPlayer: NSObject {
         }
         
     }
-    
+    public override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
+
+        // Only handle observations for the playerItemContext
+        guard context == &playerItemContext else {
+            super.observeValue(forKeyPath: keyPath,
+                               of: object,
+                               change: change,
+                               context: context)
+            return
+        }
+
+        if keyPath == #keyPath(AVPlayerItem.status) {
+            
+            if let statusNumber = change?[.newKey] as? NSNumber {
+                self.playItemStatus = AVPlayerItem.Status(rawValue: statusNumber.intValue)!
+            } else {
+                self.playItemStatus = .unknown
+            }
+            
+        }
+    }
 }

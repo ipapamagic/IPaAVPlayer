@@ -33,6 +33,14 @@ open class IPaAVPlayerView: UIView {
         indicator.isHidden = true
         return indicator
     }()
+    open var videoGravity:AVLayerVideoGravity {
+        get {
+            return self.playerLayer.videoGravity
+        }
+        set {
+            self.playerLayer.videoGravity = newValue
+        }
+    }
     open var avPlayer:IPaAVPlayer? {
         didSet {
             if let player = oldValue?.avPlayer {

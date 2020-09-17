@@ -34,6 +34,7 @@ public class IPaAVPlayer: NSObject {
         }
     }
     public static let IPaAVPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFinished")
+    public static let IPaAVPlayerItemError: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemError")
     var playStatusObserver:NSKeyValueObservation?
     var currentItem:AVPlayerItem? {
         get {
@@ -58,14 +59,7 @@ public class IPaAVPlayer: NSObject {
             }
             else {
                 avPlayer = AVPlayer(playerItem: playerItem)
-                if let playStatusObserver = playStatusObserver {
-                    playStatusObserver.invalidate()
-                }
-                playStatusObserver = avPlayer?.observe(\.status, options: [.new,.old], changeHandler: { (player, valueChanged) in
-                    if player.status == .readyToPlay,self.isPlay{
-                        self.play()
-                    }
-                })
+                
             }
         }
     }
@@ -95,7 +89,10 @@ public class IPaAVPlayer: NSObject {
                 }
             }
             if let newValue = newValue {
-               timeObserver =  newValue.addPeriodicTimeObserver(forInterval: CMTime(value: 300, timescale: 600), queue: .main, using: { (currentTime) in
+                if let timeObserver = timeObserver {
+                    _avPlayer?.removeTimeObserver(timeObserver)
+                }
+                timeObserver =  newValue.addPeriodicTimeObserver(forInterval: CMTime(value: 300, timescale: 600), queue: .main, using: { (currentTime) in
                     self.currentTime = currentTime.seconds
                 
              
@@ -110,6 +107,29 @@ public class IPaAVPlayer: NSObject {
                     }
                 
                 })
+                
+                if let playStatusObserver = playStatusObserver {
+                    playStatusObserver.invalidate()
+                }
+                playStatusObserver = newValue.observe(\.status, options: [.new,.old], changeHandler: { (player, valueChanged) in
+                    
+                    if player.status == .readyToPlay,self.isPlay{
+                        //add a delay for not playing bug
+                        DispatchQueue.main.asyncAfter(deadline:.now() + 0.1, execute: {
+                            self.play()
+                        })
+                        
+                    }
+                    else if player.status == .failed {
+                        NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemError, object: self,userInfo: ["Error":player.error ?? NSError(domain: "com.IPaAVPlayer", code: -1000, userInfo: nil)])
+                        self.pause()
+                    }
+                    else if player.status == .unknown {
+                        NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemError, object: self,userInfo: ["Error":player.error ?? NSError(domain: "com.IPaAVPlayer", code: -1001, userInfo: [NSLocalizedDescriptionKey:"unknown error!"])])
+                        self.pause()
+                    }
+                })
+                
             }
             newValue?.automaticallyWaitsToMinimizeStalling = false
            
@@ -154,6 +174,7 @@ public class IPaAVPlayer: NSObject {
         self._isPlay = true
         self.avPlayer?.play()
         self.avPlayer?.rate = self.playRate
+       
     }
     
     public func seekToTime(_ time:Int,complete:((Bool) -> ())? = nil) {

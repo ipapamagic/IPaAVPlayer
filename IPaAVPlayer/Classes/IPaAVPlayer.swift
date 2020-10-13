@@ -176,7 +176,11 @@ public class IPaAVPlayer: NSObject {
         self.avPlayer?.rate = self.playRate
        
     }
-    
+    public func close() {
+        self.currentTime = 0
+        self._isPlay = false
+        self.avPlayer = nil
+    }
     public func seekToTime(_ time:Int,complete:((Bool) -> ())? = nil) {
         guard let avPlayer = avPlayer else {
             return

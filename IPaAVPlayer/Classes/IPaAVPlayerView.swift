@@ -17,6 +17,7 @@ open class IPaAVPlayerView: UIView {
     open var delegate:IPaAVPlayerViewDelegate?
     var timeObserver:Any?
     var finishObserver:NSObjectProtocol?
+    var statusObservation:NSKeyValueObservation?
     override open class var layerClass: AnyClass {
         return AVPlayerLayer.self
     }
@@ -44,7 +45,10 @@ open class IPaAVPlayerView: UIView {
     open var avPlayer:IPaAVPlayer? {
         didSet {
             if let player = oldValue?.avPlayer {
-                player.removeObserver(self, forKeyPath: "timeControlStatus")
+                if let statusObservation = statusObservation {
+                    statusObservation.invalidate()
+                    self.statusObservation = nil
+                }
                 if let timeObserver = timeObserver {
                     player.removeTimeObserver(timeObserver)
                 }
@@ -58,7 +62,10 @@ open class IPaAVPlayerView: UIView {
 
             if let avPlayer = avPlayer ,let player = avPlayer.avPlayer {
                 self.checkStatus()
-                player.addObserver(self, forKeyPath: "timeControlStatus", options: [.old,.new], context: nil)
+                self.statusObservation = player.observe(\.timeControlStatus, options: [.old,.new]) { (player, changedValue) in
+                    self.checkStatus()
+                }
+                
                 player.addPeriodicTimeObserver(forInterval: CMTime(value: 300, timescale: 600), queue: .main) { (currentTime) in
                     self.delegate?.onCurrentTimeUpdate(self, currentTime: currentTime.seconds)
                 }
@@ -69,9 +76,7 @@ open class IPaAVPlayerView: UIView {
             
         }
     }
-    override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        checkStatus()
-    }
+    
     func checkStatus() {
         if let avPlayer = avPlayer {
             let status = avPlayer.timeControlStatus

@@ -20,7 +20,7 @@ public class IPaAVPlayer: NSObject {
     
     var timeObserver:Any?
     public class override func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String> {
-        if let value = ["isPlay":["_isPlay"],"timeControlStatus":["_avPlayer.timeControlStatus"]][key] {
+        if let value = ["isLoading":["_avPlayer.timeControlStatus","_isPlay"],"isPlay":["_isPlay"],"timeControlStatus":["_avPlayer.timeControlStatus"]][key] {
             return Set(value)
         }
         return super.keyPathsForValuesAffectingValue(forKey: key)
@@ -36,6 +36,7 @@ public class IPaAVPlayer: NSObject {
     public static let IPaAVPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFinished")
     public static let IPaAVPlayerItemError: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemError")
     var playStatusObserver:NSKeyValueObservation?
+    var playRateTimer:Timer?
     var currentItem:AVPlayerItem? {
         get {
             return self.avPlayer?.currentItem
@@ -70,7 +71,12 @@ public class IPaAVPlayer: NSObject {
     }
     @objc dynamic public var currentTime:Double = 0
     @objc dynamic public var duration:Double = 0
-    
+    @objc dynamic public var isLoading:Bool {
+        get {
+            return (self.timeControlStatus != .playing) && self.isPlay
+            
+        }
+    }
     @objc dynamic public var isPlay:Bool {
         get {
             return _isPlay
@@ -115,10 +121,7 @@ public class IPaAVPlayer: NSObject {
                     
                     if player.status == .readyToPlay,self.isPlay{
                         //add a delay for not playing bug
-                        DispatchQueue.main.asyncAfter(deadline:.now() + 0.1, execute: {
-                            self.play()
-                        })
-                        
+                        self.play()
                     }
                     else if player.status == .failed {
                         NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemError, object: self,userInfo: ["Error":player.error ?? NSError(domain: "com.IPaAVPlayer", code: -1000, userInfo: nil)])
@@ -129,7 +132,17 @@ public class IPaAVPlayer: NSObject {
                         self.pause()
                     }
                 })
-                
+                if playRateTimer == nil {
+                    //sometimes it won't play even the setting is correctly,this timer is trying to fix thisproblem
+                    playRateTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
+                        guard let avPlayer = self.avPlayer, self.isPlay,avPlayer.status == .readyToPlay, avPlayer.rate == 0,avPlayer.timeControlStatus != .playing else {
+                            return
+                        }
+//                        print("error:\(avPlayer.error) timeControlState:\(avPlayer.timeControlStatus.rawValue) status:\(avPlayer.status.rawValue)")
+                        self.play()
+                        
+                    })
+                }
             }
             newValue?.automaticallyWaitsToMinimizeStalling = false
            

@@ -25,7 +25,16 @@ open class IPaAVPlayerView: UIView {
         return layer as! AVPlayerLayer
     }
     lazy var indicatorView:UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.whiteLarge)
+        var style:UIActivityIndicatorView.Style
+        
+        if #available(iOS 13.0, *) {
+            style = .large
+        } else {
+            // Fallback on earlier versions
+            style = .whiteLarge
+        }
+        
+        let indicator = UIActivityIndicatorView(style: style)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(indicator)
         indicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true

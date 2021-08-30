@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 import AVFoundation
 public class IPaAVPlayer: NSObject {
     public static let shared = IPaAVPlayer()
@@ -34,9 +35,26 @@ public class IPaAVPlayer: NSObject {
         }
     }
     public static let IPaAVPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFinished")
+    public static let IPaAVPlayerItemFailedToReachEnd: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFailedToReachEnd")
     public static let IPaAVPlayerItemError: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemError")
+    @available(iOS 13.0, *)
+    public static let itemFailedToReachEndPublisher = NotificationCenter.default.publisher(for: IPaAVPlayerItemFailedToReachEnd)
+    @available(iOS 13.0, *)
+    public static let itemFinishedPublisher = NotificationCenter.default.publisher(for: IPaAVPlayerItemFinished)
+    @available(iOS 13.0, *)
+    public static let itemErrorPublisher = NotificationCenter.default.publisher(for: IPaAVPlayerItemError)
+    
+    
     var playStatusObserver:NSKeyValueObservation?
     var playRateTimer:Timer?
+    public var volumn:Float {
+        get {
+            return self.avPlayer?.volume ?? 0
+        }
+        set {
+            self.avPlayer?.volume = newValue
+        }
+    }
     var currentItem:AVPlayerItem? {
         get {
             return self.avPlayer?.currentItem
@@ -163,8 +181,9 @@ public class IPaAVPlayer: NSObject {
         } catch let error {
             print(error)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(onPlayerItemDidReachEnd(_:)), name: .AVPlayerItemDidPlayToEndTime, object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(onPlayerItemDidReachEnd(_:)), name: .AVPlayerItemDidPlayToEndTime, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onPlayerItemFailedToReachEnd(_:)), name: .AVPlayerItemFailedToPlayToEndTime, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onAudioSessionInterruption(_:)) ,name: AVAudioSession.interruptionNotification, object: nil)
         
     }
@@ -206,6 +225,13 @@ public class IPaAVPlayer: NSObject {
         })
         
         
+    }
+    @objc func onPlayerItemFailedToReachEnd(_  notification:Notification) {
+        guard let item = notification.object as? AVPlayerItem, item == self.currentItem else {
+            return
+        }
+        self._isPlay = false
+        NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemFailedToReachEnd, object: self)
     }
     @objc func onPlayerItemDidReachEnd(_ notification:Notification) {
         guard let item = notification.object as? AVPlayerItem, item == self.currentItem else {

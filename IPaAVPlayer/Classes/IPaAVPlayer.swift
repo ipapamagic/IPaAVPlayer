@@ -36,6 +36,7 @@ public class IPaAVPlayer: NSObject {
     }
     public static let IPaAVPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFinished")
     public static let IPaAVPlayerItemFailedToReachEnd: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFailedToReachEnd")
+    public static let IPaAVPlayerItemStalled: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemStalled")
     public static let IPaAVPlayerItemError: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemError")
     @available(iOS 13.0, *)
     public static let itemFailedToReachEndPublisher = NotificationCenter.default.publisher(for: IPaAVPlayerItemFailedToReachEnd)
@@ -184,6 +185,8 @@ public class IPaAVPlayer: NSObject {
         
         NotificationCenter.default.addObserver(self, selector: #selector(onPlayerItemDidReachEnd(_:)), name: .AVPlayerItemDidPlayToEndTime, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(onPlayerItemFailedToReachEnd(_:)), name: .AVPlayerItemFailedToPlayToEndTime, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onPlayerItemStalled(_:)), name: .AVPlayerItemPlaybackStalled, object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(onAudioSessionInterruption(_:)) ,name: AVAudioSession.interruptionNotification, object: nil)
         
     }
@@ -232,6 +235,13 @@ public class IPaAVPlayer: NSObject {
         }
         self._isPlay = false
         NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemFailedToReachEnd, object: self)
+    }
+    @objc func onPlayerItemStalled(_ notification:Notification) {
+        guard let item = notification.object as? AVPlayerItem, item == self.currentItem else {
+            return
+        }
+        self._isPlay = false
+        NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemStalled, object: self)
     }
     @objc func onPlayerItemDidReachEnd(_ notification:Notification) {
         guard let item = notification.object as? AVPlayerItem, item == self.currentItem else {

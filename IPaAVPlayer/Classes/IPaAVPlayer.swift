@@ -10,28 +10,57 @@ import Combine
 import AVFoundation
 public class IPaAVPlayer: NSObject {
     public static let shared = IPaAVPlayer()
-    public var playRate:Float = 1.0 {
-        didSet {
-            if self.isPlay {
-                self.avPlayer?.rate = playRate
-            }
-            
-        }
-    }
-    
-    var timeObserver:Any?
     public class override func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String> {
-        if let value = ["isLoading":["_avPlayer.timeControlStatus","_isPlay"],"isPlay":["_isPlay"],"timeControlStatus":["_avPlayer.timeControlStatus"]][key] {
+        if let value = ["isLoading":["avPlayer.timeControlStatus","_isPlay"],"isPlay":["_isPlay"],"timeControlStatus":["avPlayer.timeControlStatus"]][key] {
             return Set(value)
         }
         return super.keyPathsForValuesAffectingValue(forKey: key)
     }
+    public var playRate:Float = 1.0 {
+        didSet {
+            if self.isPlay {
+                self.avPlayer.rate = playRate
+            }
+            
+        }
+    }
+    var looper:AVPlayerLooper? {
+        willSet {
+            looper?.disableLooping()
+        }
+    }
+    public var isLoop:Bool = false {
+        didSet {
+            if !isLoop {
+                if self.isPlay,let url = self.playUrl {
+                    let currentTime = self.currentItem?.currentTime() ?? CMTime(value: CMTimeValue(0), timescale: 600)
+                    let item = AVPlayerItem(url: url)
+                    self.avPlayer.replaceCurrentItem(with: item)
+                    self.avPlayer.seek(to: currentTime)
+                    self.avPlayer.play()
+                }
+                self.looper = nil
+            }
+            else {
+                guard self.isPlay,let url = self.playUrl else {
+                    return
+                }
+                
+                let item = AVPlayerItem(url: url)
+                self.looper = AVPlayerLooper(player: self.avPlayer, templateItem: item)
+            }
+            
+            
+        }
+    }
+    var timeObserver:Any?
+    public var playUrl:URL?
     var shouldResume:Bool = false
     @objc dynamic var _isPlay:Bool = false
     
     @objc dynamic public var timeControlStatus:AVPlayer.TimeControlStatus {
         get {
-            return self.avPlayer?.timeControlStatus ?? AVPlayer.TimeControlStatus.paused
+            return self.avPlayer.timeControlStatus
         }
     }
     public static let IPaAVPlayerItemFinished: NSNotification.Name = NSNotification.Name("IPaAVPlayerItemFinished")
@@ -50,42 +79,15 @@ public class IPaAVPlayer: NSObject {
     var playRateTimer:Timer?
     public var volumn:Float {
         get {
-            return self.avPlayer?.volume ?? 0
+            return self.avPlayer.volume
         }
         set {
-            self.avPlayer?.volume = newValue
+            self.avPlayer.volume = newValue
         }
     }
     var currentItem:AVPlayerItem? {
         get {
-            return self.avPlayer?.currentItem
-        }
-        set {
-            
-            guard let playerItem = newValue else {
-
-                self.avPlayer?.replaceCurrentItem(with: nil)
-                return
-            }
-            playerItem.preferredForwardBufferDuration = TimeInterval(1)
-            
-            if let avPlayer = avPlayer {
-                if avPlayer.currentItem == playerItem {
-                    avPlayer.seek(to: CMTime(value: 0, timescale: 1))
-                }
-                else {
-                    avPlayer.replaceCurrentItem(with: playerItem)
-                }
-            }
-            else {
-                avPlayer = AVPlayer(playerItem: playerItem)
-                
-            }
-        }
-    }
-    public var playingUrl:URL? {
-        get {
-            return (self.currentItem?.asset as? AVURLAsset)?.url
+            return self.avPlayer.currentItem
         }
     }
     @objc dynamic public var currentTime:Double = 0
@@ -101,78 +103,61 @@ public class IPaAVPlayer: NSObject {
             return _isPlay
         }
     }
-    @objc dynamic fileprivate var _avPlayer:AVPlayer?
-    var avPlayer:AVPlayer?
+    
+    lazy var avPlayer:AVQueuePlayer =
     {
-        get {
-            return _avPlayer
-        }
-        set {
-            if let _avPlayer = _avPlayer {
-                if let timeObserver = timeObserver {
-                    _avPlayer.removeTimeObserver(timeObserver)
+        let player = AVQueuePlayer()
+        timeObserver =  player.addPeriodicTimeObserver(forInterval: CMTime(value: 300, timescale: 600), queue: .main, using: { (currentTime) in
+            self.currentTime = currentTime.seconds
+        
+     
+            if let currentItem = self.currentItem {
+                var duration = CMTimeGetSeconds(currentItem.duration)
+                if duration.isNaN {
+                    duration = 0
+                }
+                if duration != self.duration {
+                    self.duration = duration
                 }
             }
-            if let newValue = newValue {
-                if let timeObserver = timeObserver {
-                    _avPlayer?.removeTimeObserver(timeObserver)
-                }
-                timeObserver =  newValue.addPeriodicTimeObserver(forInterval: CMTime(value: 300, timescale: 600), queue: .main, using: { (currentTime) in
-                    self.currentTime = currentTime.seconds
-                
-             
-                    if let currentItem = self.currentItem {
-                        var duration = CMTimeGetSeconds(currentItem.duration)
-                        if duration.isNaN {
-                            duration = 0
-                        }
-                        if duration != self.duration {
-                            self.duration = duration
-                        }
-                    }
-                
-                })
-                
-                if let playStatusObserver = playStatusObserver {
-                    playStatusObserver.invalidate()
-                }
-                playStatusObserver = newValue.observe(\.status, options: [.new,.old], changeHandler: { (player, valueChanged) in
-                    
-                    if player.status == .readyToPlay,self.isPlay{
-                        //add a delay for not playing bug
-                        self.play()
-                    }
-                    else if player.status == .failed {
-                        NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemError, object: self,userInfo: ["Error":player.error ?? NSError(domain: "com.IPaAVPlayer", code: -1000, userInfo: nil)])
-                        self.pause()
-                    }
-                    else if player.status == .unknown {
-                        NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemError, object: self,userInfo: ["Error":player.error ?? NSError(domain: "com.IPaAVPlayer", code: -1001, userInfo: [NSLocalizedDescriptionKey:"unknown error!"])])
-                        self.pause()
-                    }
-                })
-                if playRateTimer == nil {
-                    //sometimes it won't play even the setting is correctly,this timer is trying to fix thisproblem
-                    playRateTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
-                        guard let avPlayer = self.avPlayer, self.isPlay,avPlayer.status == .readyToPlay, avPlayer.rate == 0,avPlayer.timeControlStatus != .playing else {
-                            return
-                        }
-//                        print("error:\(avPlayer.error) timeControlState:\(avPlayer.timeControlStatus.rawValue) status:\(avPlayer.status.rawValue)")
-                        self.play()
-                        
-                    })
-                }
+        
+        })
+         
+        playStatusObserver = player.observe(\.status, options: [.new,.old], changeHandler: { (player, valueChanged) in
+            
+            if player.status == .readyToPlay,self.isPlay{
+                //add a delay for not playing bug
+                self.play()
             }
-            newValue?.automaticallyWaitsToMinimizeStalling = false
-           
-            _avPlayer = newValue
-       
-        }
-    }
+            else if player.status == .failed {
+                NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemError, object: self,userInfo: ["Error":player.error ?? NSError(domain: "com.IPaAVPlayer", code: -1000, userInfo: nil)])
+                self.pause()
+            }
+            else if player.status == .unknown {
+                NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemError, object: self,userInfo: ["Error":player.error ?? NSError(domain: "com.IPaAVPlayer", code: -1001, userInfo: [NSLocalizedDescriptionKey:"unknown error!"])])
+                self.pause()
+            }
+        })
+    
+        //sometimes it won't play even the setting is correctly,this timer is trying to fix thisproblem
+        playRateTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
+            guard player.status == .readyToPlay, player.rate == 0,player.timeControlStatus != .playing else {
+                return
+            }
+            self.play()
+            
+        })
+        player.automaticallyWaitsToMinimizeStalling = false
+        return player
+    }()
     public var currentAVMetadataItem:[AVMetadataItem] {
         get {
             return self.currentItem?.asset.commonMetadata ?? [AVMetadataItem]()
         }
+    }
+    convenience public init(_ url:URL) {
+        self.init()
+        self.playUrl = url
     }
     public override init() {
         super.init()
@@ -193,33 +178,43 @@ public class IPaAVPlayer: NSObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-  
     
-    public func setAVURL(_ url:URL) {
-        let asset = AVURLAsset(url: url)
-        self.currentItem = AVPlayerItem(asset: asset)
-        
-    }
     
     public func pause() {
         self._isPlay = false
-        self.avPlayer?.pause()
+        self.avPlayer.pause()
+    }
+    fileprivate func prepareUrlItem(_ url:URL) {
+        let item = AVPlayerItem(url: url)
+        if self.isLoop {
+            
+            self.looper = AVPlayerLooper(player: self.avPlayer, templateItem: item)
+        }
+        else {
+            self.looper = nil
+            self.avPlayer.replaceCurrentItem(with: item)
+        }
     }
     public func play() {
+        guard !self.isPlay ,let url = self.playUrl else {
+            return
+        }
         self._isPlay = true
-        self.avPlayer?.play()
-        self.avPlayer?.rate = self.playRate
+        if self.avPlayer.currentItem == nil {
+            //resume
+            self.prepareUrlItem(url)
+        }
+        self.avPlayer.play()
+        self.avPlayer.rate = self.playRate
        
     }
     public func close() {
         self.currentTime = 0
         self._isPlay = false
-        self.avPlayer = nil
+        self.avPlayer.removeAllItems()
+        
     }
     public func seekToTime(_ time:Int,complete:((Bool) -> ())? = nil) {
-        guard let avPlayer = avPlayer else {
-            return
-        }
         avPlayer.seek(to: CMTime(value: CMTimeValue(600 * time), timescale: 600), completionHandler: {
             success in
             if let complete = complete {

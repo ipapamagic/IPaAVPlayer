@@ -69,7 +69,8 @@ open class IPaAVPlayerView: UIView {
             
             playerLayer.player = avPlayer?.avPlayer
 
-            if let avPlayer = avPlayer ,let player = avPlayer.avPlayer {
+            if let avPlayer = avPlayer {
+                let player = avPlayer.avPlayer 
                 self.checkStatus()
                 self.statusObservation = player.observe(\.timeControlStatus, options: [.old,.new]) { (player, changedValue) in
                     self.checkStatus()

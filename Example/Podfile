@@ -1,9 +1,9 @@
 use_frameworks!
+platform:ios,'13.0'
+target 'IPaAVPlayer_Example' do
+  pod 'IPaAVPlayer', :path => '../'
 
-target 'IPaMusicPlayer_Example' do
-  pod 'IPaMusicPlayer', :path => '../'
-
-  target 'IPaMusicPlayer_Tests' do
+  target 'IPaAVPlayer_Tests' do
     inherit! :search_paths
 
     

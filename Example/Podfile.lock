@@ -1,16 +1,16 @@
 PODS:
-  - IPaMusicPlayer (0.1.0)
+  - IPaAVPlayer (2.0)
 
 DEPENDENCIES:
-  - IPaMusicPlayer (from `../`)
+  - IPaAVPlayer (from `../`)
 
 EXTERNAL SOURCES:
-  IPaMusicPlayer:
+  IPaAVPlayer:
     :path: "../"
 
 SPEC CHECKSUMS:
-  IPaMusicPlayer: ebf8732ee8b2ed5fd1ef50caed934ae96aa3dc4b
+  IPaAVPlayer: 661f85045e612934f7948d2ced61bf7f3bbbc8c4
 
-PODFILE CHECKSUM: a8ab03c3062d029bcded4deb29073052f2ea6e61
+PODFILE CHECKSUM: 889895089f1ed2994f74d64ded07829477dd99dc
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.11.2

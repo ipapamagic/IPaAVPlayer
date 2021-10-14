@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3CCDF5620DC87D63E780F9DE /* Pods_IPaMusicPlayer_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F42275ED7F6ED7293610F5D1 /* Pods_IPaMusicPlayer_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
-		AA5E1083114FDE37A5206382 /* Pods_IPaMusicPlayer_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666E1B8F802DBE1BABCEA8C4 /* Pods_IPaMusicPlayer_Tests.framework */; };
+		6CA20C8B58B92EBA6E594E3F /* Pods_IPaAVPlayer_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BA565EA3F6658356897E447 /* Pods_IPaAVPlayer_Tests.framework */; };
+		6EB40D0027181A6B00744072 /* v.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6EB40CFF271812E300744072 /* v.mp4 */; };
+		9BC2F9DFC8FA04A1C6933996 /* Pods_IPaAVPlayer_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B25B6BB6546B40A0F8F7CC6 /* Pods_IPaAVPlayer_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,8 +29,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		150ED5DC9F0C8D1AB351AFA4 /* Pods-IPaMusicPlayer_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaMusicPlayer_Example.release.xcconfig"; path = "Target Support Files/Pods-IPaMusicPlayer_Example/Pods-IPaMusicPlayer_Example.release.xcconfig"; sourceTree = "<group>"; };
-		406A52B57F9D04BE863FA43B /* Pods-IPaMusicPlayer_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaMusicPlayer_Tests.release.xcconfig"; path = "Target Support Files/Pods-IPaMusicPlayer_Tests/Pods-IPaMusicPlayer_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		0B25B6BB6546B40A0F8F7CC6 /* Pods_IPaAVPlayer_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IPaAVPlayer_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BA565EA3F6658356897E447 /* Pods_IPaAVPlayer_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IPaAVPlayer_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		25EF524B997248143126BA93 /* Pods-IPaAVPlayer_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaAVPlayer_Tests.release.xcconfig"; path = "Target Support Files/Pods-IPaAVPlayer_Tests/Pods-IPaAVPlayer_Tests.release.xcconfig"; sourceTree = "<group>"; };
+		42BACCA7DEBF52624CE5DD76 /* Pods-IPaAVPlayer_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaAVPlayer_Tests.debug.xcconfig"; path = "Target Support Files/Pods-IPaAVPlayer_Tests/Pods-IPaAVPlayer_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* IPaAVPlayer_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IPaAVPlayer_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -40,13 +43,12 @@
 		607FACE51AFB9204008FA782 /* IPaAVPlayer_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IPaAVPlayer_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
-		666E1B8F802DBE1BABCEA8C4 /* Pods_IPaMusicPlayer_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IPaMusicPlayer_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		86C95FFCD59A9AB242B6EBC4 /* Pods-IPaMusicPlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaMusicPlayer_Example.debug.xcconfig"; path = "Target Support Files/Pods-IPaMusicPlayer_Example/Pods-IPaMusicPlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		9D358CA893DE9F7933796160 /* IPaMusicPlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = IPaMusicPlayer.podspec; path = ../IPaMusicPlayer.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		6EB40CFF271812E300744072 /* v.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = v.mp4; sourceTree = "<group>"; };
+		7D237C6F67A0A46BD17AA4B5 /* Pods-IPaAVPlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaAVPlayer_Example.debug.xcconfig"; path = "Target Support Files/Pods-IPaAVPlayer_Example/Pods-IPaAVPlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		8167AF8920619257D1CE40DD /* Pods-IPaAVPlayer_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaAVPlayer_Example.release.xcconfig"; path = "Target Support Files/Pods-IPaAVPlayer_Example/Pods-IPaAVPlayer_Example.release.xcconfig"; sourceTree = "<group>"; };
+		9D358CA893DE9F7933796160 /* IPaAVPlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = IPaAVPlayer.podspec; path = ../IPaAVPlayer.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AAA6B3CD7346639A6DB4FB83 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D8FA355F76B720866CB83690 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		F42275ED7F6ED7293610F5D1 /* Pods_IPaMusicPlayer_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IPaMusicPlayer_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FADA1315EE1972DE3A6A7DF6 /* Pods-IPaMusicPlayer_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IPaMusicPlayer_Tests.debug.xcconfig"; path = "Target Support Files/Pods-IPaMusicPlayer_Tests/Pods-IPaMusicPlayer_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3CCDF5620DC87D63E780F9DE /* Pods_IPaMusicPlayer_Example.framework in Frameworks */,
+				9BC2F9DFC8FA04A1C6933996 /* Pods_IPaAVPlayer_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,22 +64,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA5E1083114FDE37A5206382 /* Pods_IPaMusicPlayer_Tests.framework in Frameworks */,
+				6CA20C8B58B92EBA6E594E3F /* Pods_IPaAVPlayer_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C67C1FD45083A93A1B9498F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7D237C6F67A0A46BD17AA4B5 /* Pods-IPaAVPlayer_Example.debug.xcconfig */,
+				8167AF8920619257D1CE40DD /* Pods-IPaAVPlayer_Example.release.xcconfig */,
+				42BACCA7DEBF52624CE5DD76 /* Pods-IPaAVPlayer_Tests.debug.xcconfig */,
+				25EF524B997248143126BA93 /* Pods-IPaAVPlayer_Tests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
-				607FACD21AFB9204008FA782 /* Example for IPaMusicPlayer */,
+				607FACD21AFB9204008FA782 /* Example for IPaAVPlayer */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				607FACD11AFB9204008FA782 /* Products */,
-				A2F0BD1ABF40E1251E18A97F /* Pods */,
 				C018D21AE26C896778BAC6BA /* Frameworks */,
+				2C67C1FD45083A93A1B9498F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -90,18 +103,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		607FACD21AFB9204008FA782 /* Example for IPaMusicPlayer */ = {
+		607FACD21AFB9204008FA782 /* Example for IPaAVPlayer */ = {
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				6EB40CFF271812E300744072 /* v.mp4 */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
-			name = "Example for IPaMusicPlayer";
-			path = IPaMusicPlayer;
+			name = "Example for IPaAVPlayer";
+			path = IPaAVPlayer;
 			sourceTree = "<group>";
 		};
 		607FACD31AFB9204008FA782 /* Supporting Files */ = {
@@ -132,29 +146,18 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				9D358CA893DE9F7933796160 /* IPaMusicPlayer.podspec */,
+				9D358CA893DE9F7933796160 /* IPaAVPlayer.podspec */,
 				D8FA355F76B720866CB83690 /* README.md */,
 				AAA6B3CD7346639A6DB4FB83 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
 		};
-		A2F0BD1ABF40E1251E18A97F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				86C95FFCD59A9AB242B6EBC4 /* Pods-IPaMusicPlayer_Example.debug.xcconfig */,
-				150ED5DC9F0C8D1AB351AFA4 /* Pods-IPaMusicPlayer_Example.release.xcconfig */,
-				FADA1315EE1972DE3A6A7DF6 /* Pods-IPaMusicPlayer_Tests.debug.xcconfig */,
-				406A52B57F9D04BE863FA43B /* Pods-IPaMusicPlayer_Tests.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		C018D21AE26C896778BAC6BA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F42275ED7F6ED7293610F5D1 /* Pods_IPaMusicPlayer_Example.framework */,
-				666E1B8F802DBE1BABCEA8C4 /* Pods_IPaMusicPlayer_Tests.framework */,
+				0B25B6BB6546B40A0F8F7CC6 /* Pods_IPaAVPlayer_Example.framework */,
+				0BA565EA3F6658356897E447 /* Pods_IPaAVPlayer_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 			files = (
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				6EB40D0027181A6B00744072 /* v.mp4 in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,7 +281,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-IPaMusicPlayer_Tests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-IPaAVPlayer_Tests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -299,7 +303,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-IPaMusicPlayer_Example-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-IPaAVPlayer_Example-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -311,21 +315,17 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IPaMusicPlayer_Example/Pods-IPaMusicPlayer_Example-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/IPaMusicPlayer/IPaMusicPlayer.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-IPaAVPlayer_Example/Pods-IPaAVPlayer_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/IPaAVPlayer/IPaAVPlayer.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IPaMusicPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IPaAVPlayer.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IPaMusicPlayer_Example/Pods-IPaMusicPlayer_Example-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IPaAVPlayer_Example/Pods-IPaAVPlayer_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -479,10 +479,11 @@
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 86C95FFCD59A9AB242B6EBC4 /* Pods-IPaMusicPlayer_Example.debug.xcconfig */;
+			baseConfigurationReference = 7D237C6F67A0A46BD17AA4B5 /* Pods-IPaAVPlayer_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = IPaAVPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -494,10 +495,11 @@
 		};
 		607FACF11AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 150ED5DC9F0C8D1AB351AFA4 /* Pods-IPaMusicPlayer_Example.release.xcconfig */;
+			baseConfigurationReference = 8167AF8920619257D1CE40DD /* Pods-IPaAVPlayer_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = IPaAVPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
@@ -509,7 +511,7 @@
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FADA1315EE1972DE3A6A7DF6 /* Pods-IPaMusicPlayer_Tests.debug.xcconfig */;
+			baseConfigurationReference = 42BACCA7DEBF52624CE5DD76 /* Pods-IPaAVPlayer_Tests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -531,7 +533,7 @@
 		};
 		607FACF41AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 406A52B57F9D04BE863FA43B /* Pods-IPaMusicPlayer_Tests.release.xcconfig */;
+			baseConfigurationReference = 25EF524B997248143126BA93 /* Pods-IPaAVPlayer_Tests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

@@ -54,7 +54,11 @@ public class IPaAVPlayer: NSObject {
         }
     }
     var timeObserver:Any?
-    public var playUrl:URL?
+    public var playUrl:URL? {
+        didSet {
+            self.close()
+        }
+    }
     var shouldResume:Bool = false
     @objc dynamic var _isPlay:Bool = false
     

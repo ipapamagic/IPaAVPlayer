@@ -148,6 +148,7 @@ public class IPaAVPlayer: NSObject {
             guard player.status == .readyToPlay, player.rate == 0,player.timeControlStatus != .playing ,self.isPlay  else {
                 return
             }
+            self._isPlay = false //set isPlay to false , for play to initial again
             self.play()
             
         })

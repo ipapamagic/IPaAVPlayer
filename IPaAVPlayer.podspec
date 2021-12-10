@@ -28,10 +28,9 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/ipapamagic/IPaAVPlayer.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '11.4'
+  s.ios.deployment_target = '13.0'
 
-  s.source_files = 'IPaAVPlayer/Classes/**/*'
-  s.swift_version = '5.1'
+  s.swift_version = '5.3'
   # s.resource_bundles = {
   #   'IPaAVPlayer' => ['IPaAVPlayer/Assets/*.png']
   # }
@@ -39,4 +38,17 @@ TODO: Add long description of the pod here.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
+  
+  s.subspec 'Core' do |sp|
+    sp.source_files = 'IPaAVPlayer/Classes/Core/*'
+  end
+  s.subspec 'IPaAVPlayerView' do |sp|
+    sp.dependency 'IPaAVPlayer/Core'
+    sp.source_files = 'IPaAVPlayer/Classes/IPaAVPlayerView/*'
+  end
+#  s.subspec 'VR' do |sp|
+#    sp.dependency 'IPaAVPlayer/Core'
+#    sp.dependency 'IPaImageTool', '~> 2.4'
+#    sp.source_files = 'IPaAVPlayer/Classes/VR/**/*'
+#  end
 end

@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/ipapamagic@gmail.com/IPaAVPlayer'
+  s.homepage         = 'https://github.com/ipapamagic/IPaAVPlayer'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'ipapamagic@gmail.com' => 'ipapamagic@gmail.com' }
@@ -46,9 +46,5 @@ TODO: Add long description of the pod here.
     sp.dependency 'IPaAVPlayer/Core'
     sp.source_files = 'IPaAVPlayer/Classes/IPaAVPlayerView/*'
   end
-#  s.subspec 'VR' do |sp|
-#    sp.dependency 'IPaAVPlayer/Core'
-#    sp.dependency 'IPaImageTool', '~> 2.4'
-#    sp.source_files = 'IPaAVPlayer/Classes/VR/**/*'
-#  end
+  
 end

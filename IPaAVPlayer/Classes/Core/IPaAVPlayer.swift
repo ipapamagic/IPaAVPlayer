@@ -108,7 +108,8 @@ public class IPaAVPlayer: NSObject {
         }
     }
     
-    @objc dynamic lazy var avPlayer:AVQueuePlayer =
+    @objc dynamic public
+    lazy var avPlayer:AVQueuePlayer =
     {
         let player = AVQueuePlayer()
         timeObserver =  player.addPeriodicTimeObserver(forInterval: CMTime(value: 300, timescale: 600), queue: .main, using: { (currentTime) in

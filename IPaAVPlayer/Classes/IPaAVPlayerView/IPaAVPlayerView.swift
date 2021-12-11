@@ -7,17 +7,20 @@
 
 import UIKit
 import AVFoundation
-public protocol IPaAVPlayerViewDelegate
-{
-    func onCurrentTimeUpdate(_ view:IPaAVPlayerView,currentTime:TimeInterval)
-    func onTimeControlStatus(_ view:IPaAVPlayerView,status:AVPlayer.TimeControlStatus?)
-    func onFinishPlay(_ view:IPaAVPlayerView)
-}
-open class IPaAVPlayerView: IPaAVPlayerViewerView {
-    
-    
-    open var delegate:IPaAVPlayerViewDelegate?
-    
+
+open class IPaAVPlayerView: UIView {
+    @objc dynamic public var avPlayer:IPaAVPlayer? {
+        didSet {
+            guard let player = avPlayer?.avPlayer else {
+                self.indicatorView.isHidden = false
+                self.indicatorView.startAnimating()
+                playerLayer.player = nil
+                return
+            }
+
+            playerLayer.player = player
+        }
+    }
     override open class var layerClass: AnyClass {
         return AVPlayerLayer.self
     }
@@ -60,34 +63,6 @@ open class IPaAVPlayerView: IPaAVPlayerViewerView {
         // Drawing code
     }
     */
-    override func setAVPlayer(_ player: AVPlayer?) {
-        guard let player = player else {
-            self.indicatorView.isHidden = false
-            self.indicatorView.startAnimating()
-            playerLayer.player = nil
-            return
-        }
-
-        playerLayer.player = player
-    }
     
-    override func updateAVPlayerStatus(_ player: AVPlayer, status: AVPlayer.TimeControlStatus) {
-        if status == .waitingToPlayAtSpecifiedRate {
-            self.indicatorView.isHidden = false
-            self.indicatorView.startAnimating()
-        }
-        else {
-            self.indicatorView.isHidden = true
-        }
-        self.delegate?.onTimeControlStatus(self,status:status)
-    }
-    
-    override func updateAVPlayerCurrentTime(_ player: AVPlayer, currentTime: TimeInterval) {
-        self.delegate?.onCurrentTimeUpdate(self, currentTime: currentTime)
-    }
-    
-    override func avplayerIsFinished(_ player: AVPlayer) {
-        self.delegate?.onFinishPlay(self)
-    }
 }
 

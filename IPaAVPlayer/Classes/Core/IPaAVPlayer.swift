@@ -146,7 +146,7 @@ public class IPaAVPlayer: NSObject {
     
         //sometimes it won't play even the setting is correctly,this timer is trying to fix thisproblem
         playRateTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
-            guard player.status == .readyToPlay, player.rate == 0,player.timeControlStatus != .playing ,self.isPlay  else {
+            guard player.status == .readyToPlay, player.rate ==  0, self.playRate != 0 ,self.isPlay  else {
                 return
             }
             self._isPlay = false //set isPlay to false , for play to initial again

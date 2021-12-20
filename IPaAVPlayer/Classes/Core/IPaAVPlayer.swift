@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import AVFoundation
+import AVKit
 public class IPaAVPlayer: NSObject {
     public static let shared = IPaAVPlayer()
     public class override func keyPathsForValuesAffectingValue(forKey key: String) -> Set<String> {
@@ -21,7 +22,6 @@ public class IPaAVPlayer: NSObject {
             if self.isPlay {
                 self.avPlayer.rate = playRate
             }
-            
         }
     }
     var looper:AVPlayerLooper? {
@@ -31,32 +31,27 @@ public class IPaAVPlayer: NSObject {
     }
     public var isLoop:Bool = false {
         didSet {
-            if !isLoop {
-                if self.isPlay,let url = self.playUrl {
-                    let currentTime = self.currentItem?.currentTime() ?? CMTime(value: CMTimeValue(0), timescale: 600)
+            if let currentItem = self.currentItem,let url = self.playingUrl {
+                if !isLoop {
+                    let currentTime = currentItem.currentTime()
                     let item = AVPlayerItem(url: url)
                     self.avPlayer.replaceCurrentItem(with: item)
                     self.avPlayer.seek(to: currentTime)
                     self.avPlayer.play()
+                    self.looper = nil
                 }
-                self.looper = nil
-            }
-            else {
-                guard self.isPlay,let url = self.playUrl else {
-                    return
+                else {
+                    let item = AVPlayerItem(url: url)
+                    self.looper = AVPlayerLooper(player: self.avPlayer, templateItem: item)
                 }
-                
-                let item = AVPlayerItem(url: url)
-                self.looper = AVPlayerLooper(player: self.avPlayer, templateItem: item)
             }
-            
-            
         }
     }
     var timeObserver:Any?
-    public var playUrl:URL? {
-        didSet {
-            self.close()
+    var _playingUrl:URL?
+    public var playingUrl:URL? {
+        get {
+            return _playingUrl
         }
     }
     var shouldResume:Bool = false
@@ -163,7 +158,7 @@ public class IPaAVPlayer: NSObject {
     }
     convenience public init(_ url:URL) {
         self.init()
-        self.playUrl = url
+        self.setPlayingUrl(url)
     }
     public override init() {
         super.init()
@@ -184,16 +179,24 @@ public class IPaAVPlayer: NSObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+    public func setPlayingUrl(_ url:URL,externalMetadata:[AVMetadataItem]? = nil) {
+        self.close()
+        self._playingUrl = url
+        self.prepareUrlItem(url,externalMetadata: externalMetadata)
+        
+    }
     
     public func pause() {
         self._isPlay = false
         self.avPlayer.pause()
     }
-    fileprivate func prepareUrlItem(_ url:URL) {
+    
+    fileprivate func prepareUrlItem(_ url:URL,externalMetadata:[AVMetadataItem]? = nil) {
         let item = AVPlayerItem(url: url)
+        if let externalMetadata = externalMetadata {
+            item.externalMetadata = externalMetadata
+        }
         if self.isLoop {
-            
             self.looper = AVPlayerLooper(player: self.avPlayer, templateItem: item)
         }
         else {
@@ -202,30 +205,31 @@ public class IPaAVPlayer: NSObject {
         }
     }
     public func play() {
-        guard !self.isPlay ,let url = self.playUrl else {
+        guard !self.isPlay ,self.avPlayer.currentItem != nil else {
             return
         }
         self._isPlay = true
-        if self.avPlayer.currentItem == nil {
-            //resume
-            self.prepareUrlItem(url)
-        }
+        
         self.avPlayer.play()
         self.avPlayer.rate = self.playRate
        
     }
     public func close() {
+        self._playingUrl = nil
         self.currentTime = 0
         self._isPlay = false
         self.avPlayer.removeAllItems()
         
     }
-    public func seekToTime(_ time:Int,complete:((Bool) -> ())? = nil) {
-        avPlayer.seek(to: CMTime(value: CMTimeValue(600 * time), timescale: 600), completionHandler: {
+    public func seekToTime(_ time:Double,complete:((Bool) -> ())? = nil) {
+        guard self.avPlayer.currentItem != nil else {
+            complete?(false)
+            return
+        }
+        
+        avPlayer.seek(to: CMTime(value: CMTimeValue(600 * time), timescale: 600), toleranceBefore: CMTime.zero, toleranceAfter: CMTime.positiveInfinity, completionHandler: {
             success in
-            if let complete = complete {
-                complete(success)
-            }
+            complete?(success)
         })
         
         
@@ -248,7 +252,8 @@ public class IPaAVPlayer: NSObject {
         guard let item = notification.object as? AVPlayerItem, item == self.currentItem else {
             return
         }
-        self._isPlay = false
+        
+        self.pause() //when seek time to previous time , it will automatic play
         NotificationCenter.default.post(name: IPaAVPlayer.IPaAVPlayerItemFinished, object: self)
     }
     @objc func onAudioSessionInterruption(_ notification:Notification) {

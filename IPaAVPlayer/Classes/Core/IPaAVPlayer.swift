@@ -179,10 +179,10 @@ public class IPaAVPlayer: NSObject {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    public func setPlayingUrl(_ url:URL,externalMetadata:[AVMetadataItem]? = nil) {
+    public func setPlayingUrl(_ url:URL) {
         self.close()
         self._playingUrl = url
-        self.prepareUrlItem(url,externalMetadata: externalMetadata)
+        self.prepareUrlItem(url)
         
     }
     
@@ -191,11 +191,8 @@ public class IPaAVPlayer: NSObject {
         self.avPlayer.pause()
     }
     
-    fileprivate func prepareUrlItem(_ url:URL,externalMetadata:[AVMetadataItem]? = nil) {
+    fileprivate func prepareUrlItem(_ url:URL) {
         let item = AVPlayerItem(url: url)
-        if let externalMetadata = externalMetadata {
-            item.externalMetadata = externalMetadata
-        }
         if self.isLoop {
             self.looper = AVPlayerLooper(player: self.avPlayer, templateItem: item)
         }

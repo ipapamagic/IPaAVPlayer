@@ -40,11 +40,11 @@ TODO: Add long description of the pod here.
   # s.dependency 'AFNetworking', '~> 2.3'
   
   s.subspec 'Core' do |sp|
-    sp.source_files = 'IPaAVPlayer/Classes/Core/*'
+    sp.source_files = 'Sources/IPaAVPlayer/Core/*'
   end
   s.subspec 'IPaAVPlayerView' do |sp|
     sp.dependency 'IPaAVPlayer/Core'
-    sp.source_files = 'IPaAVPlayer/Classes/IPaAVPlayerView/*'
+    sp.source_files = 'Sources/IPaAVPlayer/IPaAVPlayerView/*'
   end
   
 end
